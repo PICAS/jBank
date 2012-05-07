@@ -21,7 +21,7 @@ public class JBankTest extends TestCase{
 	public void setUp() throws Exception
 	{
 		jSQL = new MyDB(path,user,password); 
-		jMap.put("", "");
+		//jMap.put("", "");
 		jMap.put("root", "qaz");
 		jMap.put("guest", "qwe");
 		jMap.put("test", "test");
@@ -31,22 +31,27 @@ public class JBankTest extends TestCase{
 	public void tearDown() throws Exception {
 	}
 	
-	public void testCreateUser()
+	public void testCreateUser() throws SQLException
 	{
+		double i=100;
 		for (Iterator iterator = jMap.keySet().iterator();iterator.hasNext();)
 		{
 			final String User = (String)iterator.next();
 			final String Password = (String)jMap.get(User); 
-			jSQL.CreateUser(User, Password, Math.random());
+			jSQL.CreateUser(User, Password, i);
+			assertEquals(i,jSQL.GetMoney(User, Password));
+			i+=i;
 		}
 	}
 	public void testGetMoney() throws SQLException
 	{
+		double i=100;
 		for (Iterator iterator = jMap.keySet().iterator();iterator.hasNext();)
 		{
 			final String User = (String)iterator.next();
 			final String Password = (String)jMap.get(User); 
-			jSQL.GetMoney(User, Password);
+			assertEquals(i,jSQL.GetMoney(User, Password));
+			i+=i;
 		}
 	}
 	public void testGetPassword() throws SQLException
@@ -55,34 +60,53 @@ public class JBankTest extends TestCase{
 		{
 			final String User = (String)iterator.next();
 			final String Password = (String)jMap.get(User); 
-			Password.equals(jSQL.GetPassword(User));
+			assertEquals(Password,jSQL.GetPassword(User));
 		}
 	}
 	public void testDepositMoney() throws SQLException
 	{
+		double i=100;
 		for (Iterator iterator = jMap.keySet().iterator();iterator.hasNext();)
 		{
 			final String User = (String)iterator.next();
 			final String Password = (String)jMap.get(User); 
-			jSQL.DepositMoney(User, Password, Math.random());
+			jSQL.DepositMoney(User, Password, i);
+			assertEquals(i*2,jSQL.GetMoney(User, Password));
+			i+=i;
+		}
+	}
+	public void testWithdrawalMoney() throws SQLException
+	{
+		double i=100;
+		for (Iterator iterator = jMap.keySet().iterator();iterator.hasNext();)
+		{
+			final String User = (String)iterator.next();
+			final String Password = (String)jMap.get(User); 
+			jSQL.DepositMoney(User, Password, -i);
+			assertEquals(i,jSQL.GetMoney(User, Password));
+			i+=i;
 		}
 	}
 	public void testTransferMoney() throws SQLException
 	{
+		double i=100;
 		for (Iterator iterator = jMap.keySet().iterator();iterator.hasNext();)
 		{
 			final String User = (String)iterator.next();
 			final String Password = (String)jMap.get(User); 
-			jSQL.TransferMoney(User, Password, User, Math.random());
+			jSQL.TransferMoney(User, Password, User, i);
+			assertEquals(i,jSQL.GetMoney(User, Password));
+			i+=i;
 		}
 	}
-	public void testDeleteUser()
+	public void testDeleteUser() throws SQLException
 	{
 		for (Iterator iterator = jMap.keySet().iterator();iterator.hasNext();)
 		{
 			final String User = (String)iterator.next();
 			final String Password = (String)jMap.get(User); 
 			jSQL.DeleteUser(User, Password);
+			assertEquals("",jSQL.GetPassword(User));
 		}
 	}
 
