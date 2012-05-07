@@ -1,6 +1,15 @@
 package JustBank;
 
 import java.sql.*;
+/*
+ * The structure of the table ACCOUNTS:
+CREATE TABLE IF NOT EXISTS `ACCOUNTS` (
+  `user` text NOT NULL,
+  `password` text NOT NULL,
+  `money` double NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ * 
+ */
 
 
 /*
@@ -49,6 +58,8 @@ class MyDB{
 				try
 				{
 					// Perform a query to the database
+					if (GetPassword(User).equals(""))
+					{
 						if (stmt.executeUpdate("INSERT ACCOUNTS VALUES ('"+User+"','"+Password+"','"+Money+"')") == 1)
 						{
 							System.out.println("OK!");
@@ -59,6 +70,12 @@ class MyDB{
 							System.out.println("ERROR!");
 							return false;
 						}
+					}
+					else
+					{
+						System.out.println("The user exists!");
+						return false;
+					}
 				}
 				catch (SQLException ex)
 				{
