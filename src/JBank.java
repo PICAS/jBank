@@ -64,113 +64,117 @@ public class JBank {
 		System.out.println("0. Exit.                      ");
 		System.out.print("Your action: ");
 	}
-public static void main(String [] args) throws SQLException
-{
-	init();
-	if (DB.result)
+	public static void main(String [] args) throws SQLException
 	{
-		String text;
-		String User, Password;
-		String UserFrom, UserPassword, UserTo;
-		Double Money;
-		int count = -1;
-		try 
+		// Initialize the connection
+		init();
+		// Check the status and implementation of appropriate action
+		if (DB.result)
 		{
-			while (count != 0)
+			String text;	//	The variable for temporary storage of text
+			String User, Password;
+			String UserFrom, UserPassword, UserTo;
+			Double Money;
+			int count = -1;	//	Number of the selected item
+			
+			try 
 			{
-				DrawMenu();
-				text = b.readLine();
-				count = Integer.parseInt(text);
-				
-				switch (count)
+				//	Until then, until you select "Exit"
+				while (count != 0)
 				{
-				case 1:	//	Open a bank account
-					System.out.print("Enter your name: ");
-					User = b.readLine();
-					System.out.print("Enter your password: ");
-					Password = b.readLine();
-					System.out.print("Enter the sum of: ");
+					DrawMenu();
 					text = b.readLine();
-					Money = Double.parseDouble(text);
-					DB.CreateUser(User, Password, Money);
-					System.out.print("Press any key..");
-					b.readLine();
-					break;
-				case 2:	//	Check bank account
-					System.out.print("Enter your name: ");
-					User = b.readLine();
-					System.out.print("Enter your password: ");
-					Password = b.readLine();
-					Money = DB.GetMoney(User,Password);
-					if (Money != 1.7E+308)
-						System.out.printf("You have %f money in the bank.\n",Money);
-					System.out.print("Press any key..");
-					b.readLine();
-					break;
-				case 3:	//	Close the bank account
-					System.out.print("Enter your name: ");
-					User = b.readLine();
-					System.out.print("Enter your password: ");
-					Password = b.readLine();
-					DB.DeleteUser(User, Password);
-					System.out.print("Press any key..");
-					b.readLine();
-					break;
-				case 4:	//	Deposit bank account
-					System.out.print("Enter your name: ");
-					User = b.readLine();
-					System.out.print("Enter your password: ");
-					Password = b.readLine();
-					System.out.print("Enter the sum of: ");
-					text = b.readLine();
-					Money = Double.parseDouble(text);
-					DB.DepositMoney(User, Password, Money);
-					System.out.print("Press any key..");
-					b.readLine();
-					break;
-				case 5:	//	Withdrawal of bank account
-					System.out.print("Enter your name: ");
-					User = b.readLine();
-					System.out.print("Enter your password: ");
-					Password = b.readLine();
-					System.out.print("Enter the sum of: ");
-					text = b.readLine();
-					Money = Double.parseDouble(text);
-					DB.DepositMoney(User, Password, -Money);
-					System.out.print("Press any key..");
-					b.readLine();
-					break;
-				case 6:	//	Transfer of funds
-					System.out.print("Enter the name of the sender: ");
-					UserFrom = b.readLine();
-					System.out.print("Enter the password sender: ");
-					UserPassword = b.readLine();
-					System.out.print("Enter the name of the recipient: ");
-					UserTo = b.readLine();
-					System.out.print("Enter the sum of: ");
-					text = b.readLine();
-					Money = Double.parseDouble(text);
-					DB.TransferMoney(UserFrom,UserPassword,UserTo,Money);
-					System.out.print("Press any key..");
-					b.readLine();
-					break;
-				case 7:	//	All bank accounts
-					DB.GetUserMoney();
-					System.out.print("Press any key..");
-					b.readLine();
-					break;
-				case 0: //	Exit
-					return;
-				default:
+					count = Integer.parseInt(text);
 					
+					switch (count)
+					{
+					case 1:	//	Open a bank account
+						System.out.print("Enter your name: ");
+						User = b.readLine();
+						System.out.print("Enter your password: ");
+						Password = b.readLine();
+						System.out.print("Enter the sum of: ");
+						text = b.readLine();
+						Money = Double.parseDouble(text);
+						DB.CreateUser(User, Password, Money);
+						System.out.print("Press any key..");
+						b.readLine();
+						break;
+					case 2:	//	Check bank account
+						System.out.print("Enter your name: ");
+						User = b.readLine();
+						System.out.print("Enter your password: ");
+						Password = b.readLine();
+						Money = DB.GetMoney(User,Password);
+						if (Money != MyDB.WrongPassword)
+							System.out.printf("You have %f money in the bank.\n",Money);
+						System.out.print("Press any key..");
+						b.readLine();
+						break;
+					case 3:	//	Close the bank account
+						System.out.print("Enter your name: ");
+						User = b.readLine();
+						System.out.print("Enter your password: ");
+						Password = b.readLine();
+						DB.DeleteUser(User, Password);
+						System.out.print("Press any key..");
+						b.readLine();
+						break;
+					case 4:	//	Deposit bank account
+						System.out.print("Enter your name: ");
+						User = b.readLine();
+						System.out.print("Enter your password: ");
+						Password = b.readLine();
+						System.out.print("Enter the sum of: ");
+						text = b.readLine();
+						Money = Double.parseDouble(text);
+						DB.DepositMoney(User, Password, Money);
+						System.out.print("Press any key..");
+						b.readLine();
+						break;
+					case 5:	//	Withdrawal of bank account
+						System.out.print("Enter your name: ");
+						User = b.readLine();
+						System.out.print("Enter your password: ");
+						Password = b.readLine();
+						System.out.print("Enter the sum of: ");
+						text = b.readLine();
+						Money = Double.parseDouble(text);
+						DB.DepositMoney(User, Password, -Money);
+						System.out.print("Press any key..");
+						b.readLine();
+						break;
+					case 6:	//	Transfer of funds
+						System.out.print("Enter the name of the sender: ");
+						UserFrom = b.readLine();
+						System.out.print("Enter the password sender: ");
+						UserPassword = b.readLine();
+						System.out.print("Enter the name of the recipient: ");
+						UserTo = b.readLine();
+						System.out.print("Enter the sum of: ");
+						text = b.readLine();
+						Money = Double.parseDouble(text);
+						DB.TransferMoney(UserFrom,UserPassword,UserTo,Money);
+						System.out.print("Press any key..");
+						b.readLine();
+						break;
+					case 7:	//	All bank accounts
+						DB.GetUserMoney();
+						System.out.print("Press any key..");
+						b.readLine();
+						break;
+					case 0: //	Exit
+						return;
+					default:
+						
+					}
 				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		else
+			System.out.println("MySQL not connected!");
 	}
-	else
-		System.out.println("MySQL not connected!");
-}
 }
